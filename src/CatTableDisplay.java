@@ -8,8 +8,8 @@ public class CatTableDisplay {
                 .sorted(Comparator.comparingDouble(Cat::getAverageLifeLevel).reversed())
                 .collect(Collectors.toList());
 
-        System.out.println("- +---+---------+--------+----------+------------+----------+-----------------+");
-        System.out.println("| # | имя     | возраст | здоровье | настроение | сытость  | средний уровень |");
+        System.out.println("\n- +---+---------+--------+----------+------------+----------+-----------------+");
+        System.out.println("| # | Имя     | Возраст | Здоровье | Настроение | Сытость  | Средний уровень |");
         System.out.println("- +---+---------+--------+----------+------------+----------+-----------------+");
 
         int i = 1;
