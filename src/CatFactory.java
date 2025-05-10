@@ -1,12 +1,29 @@
-import java.util.List;
-import java.util.ArrayList;
+import java.util.Scanner;
 
 public class CatFactory {
-    public static List<Cat> createSampleCats() {
-        List<Cat> cats = new ArrayList<>();
-        cats.add(new Cat("Peach", 11, 78, 86, 50));
-        cats.add(new Cat("Jasper", 12, 83, 39, 43));
-        cats.add(new Cat("Poppy", 9, 38, 57, 71));
-        return cats;
+    public static Cat createCat(Scanner scanner) {
+        String name = getName(scanner);
+        if (name == null) return null;
+
+        Integer age = getAge(scanner);
+        if (age == null) return null;
+
+        return new Cat(name, age);
+    }
+
+    private static String getName(Scanner scanner) {
+        System.out.print("Введите имя кота: ");
+        String name = scanner.nextLine().trim();
+        return name.isEmpty() ? null : name;
+    }
+
+    private static Integer getAge(Scanner scanner) {
+        System.out.print("Введите возраст кота (1-18): ");
+        try {
+            int age = Integer.parseInt(scanner.nextLine());
+            return (age >= 1 && age <= 18) ? age : null;
+        } catch (NumberFormatException e) {
+            return null;
+        }
     }
 }
