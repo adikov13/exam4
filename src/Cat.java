@@ -9,6 +9,9 @@ public class Cat {
     private boolean actionPerformedToday;
     private static final Random random = new Random();
 
+    // Конструктор для GSON
+    public Cat() {}
+
     public Cat(String name, int age) {
         this(name, age,
                 random.nextInt(61) + 20, // health 20-80
@@ -25,19 +28,37 @@ public class Cat {
         this.actionPerformedToday = false;
     }
 
-    // Геттеры
+    // Геттеры и сеттеры (необходимы для GSON)
     public String getName() { return name; }
-    public int getAge() { return age; }
-    public int getHealth() { return health; }
-    public int getMood() { return mood; }
-    public int getSatiety() { return satiety; }
-    public boolean isActionPerformedToday() { return actionPerformedToday; }
+    public void setName(String name) { this.name = name; }
 
-    public double getAverageLifeLevel() {
-        return (health + mood + satiety) / 3.0;
+    public int getAge() { return age; }
+    public void setAge(int age) {
+        if (age < 1 || age > 18) throw new IllegalArgumentException("Возраст должен быть от 1 до 18");
+        this.age = age;
     }
 
+    public int getHealth() { return health; }
+    public void setHealth(int health) {
+        this.health = Math.max(0, Math.min(100, health));
+    }
 
+    public int getMood() { return mood; }
+    public void setMood(int mood) {
+        this.mood = Math.max(0, Math.min(100, mood));
+    }
+
+    public int getSatiety() { return satiety; }
+    public void setSatiety(int satiety) {
+        this.satiety = Math.max(0, Math.min(100, satiety));
+    }
+
+    public boolean isActionPerformedToday() { return actionPerformedToday; }
+    public void setActionPerformedToday(boolean actionPerformedToday) {
+        this.actionPerformedToday = actionPerformedToday;
+    }
+
+    // Методы взаимодействия
     public void feed() {
         if (actionPerformedToday) {
             System.out.println(name + " уже взаимодействовал сегодня!");
@@ -100,10 +121,12 @@ public class Cat {
     public void nextDay() {
         actionPerformedToday = false;
 
+        // Random changes
         setSatiety(satiety - (random.nextInt(5) + 1));
         setMood(mood + random.nextInt(7) - 3); // -3 to +3
         setHealth(health + random.nextInt(7) - 3); // -3 to +3
 
+        // Check if cat died
         if (health <= 0) {
             System.out.println("К сожалению, " + name + " умер...");
         }
@@ -125,20 +148,7 @@ public class Cat {
         return 6;
     }
 
-    public void setAge(int age) {
-        if (age < 1 || age > 18) throw new IllegalArgumentException("Возраст должен быть от 1 до 18");
-        this.age = age;
-    }
-
-    public void setHealth(int health) {
-        this.health = Math.max(0, Math.min(100, health));
-    }
-
-    public void setMood(int mood) {
-        this.mood = Math.max(0, Math.min(100, mood));
-    }
-
-    public void setSatiety(int satiety) {
-        this.satiety = Math.max(0, Math.min(100, satiety));
+    public double getAverageLifeLevel() {
+        return (health + mood + satiety) / 3.0;
     }
 }
